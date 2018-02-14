@@ -11,6 +11,7 @@
 *.exe
 *.pdb
 *.dll.config
+*.exe.configgit 
 *.cache
 *.suo
 # Include dlls if they’re in the NuGet packages directory
