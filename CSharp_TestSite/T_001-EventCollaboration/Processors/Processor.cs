@@ -15,20 +15,8 @@ namespace T_001_EventCollaboration.Processors
     public class Processor
     {
         private static CommandReceivedEventHandler commandReceivedEventHandler;
+
         public static event CommandProcessedEventHandler CommandProcessed;
-
-        public async Task Process(Command command)
-        {
-            OnCommandReceived(this, new CommandReceivedEventArgs { Command = command, DateReceived = DateTime.Now });
-
-            await Task.Run(() => 
-            {
-                command = SimulatePotentialFailure(command);
-            });
-
-            OnCommandProcessed(this, new CommandProcessedEventArgs { Command = command });
-        }
-
         public static event CommandReceivedEventHandler CommandReceived
         {
             add
@@ -42,6 +30,18 @@ namespace T_001_EventCollaboration.Processors
             {
                 commandReceivedEventHandler -= value;
             }
+        }
+
+        public async Task Process(Command command)
+        {
+            OnCommandReceived(this, new CommandReceivedEventArgs { Command = command, DateReceived = DateTime.Now });
+
+            await Task.Run(() => 
+            {
+                command = SimulatePotentialFailure(command);
+            });
+
+            OnCommandProcessed(this, new CommandProcessedEventArgs { Command = command });
         }
 
         private static Command SimulatePotentialFailure(Command command)
