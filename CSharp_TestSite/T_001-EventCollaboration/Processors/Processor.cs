@@ -15,6 +15,7 @@ namespace T_001_EventCollaboration.Processors
     public class Processor
     {
         private static CommandReceivedEventHandler commandReceivedEventHandler;
+        public static event CommandProcessedEventHandler CommandProcessed;
 
         public async Task Process(Command command)
         {
@@ -43,30 +44,6 @@ namespace T_001_EventCollaboration.Processors
             }
         }
 
-        public static event CommandProcessedEventHandler CommandProcessed;
-
-        protected virtual void OnCommandReceived(object sender, CommandReceivedEventArgs eventArgs)
-        {
-            commandReceivedEventHandler?.Invoke(sender, eventArgs);
-        }
-
-        protected virtual void OnCommandProcessed(object sender, CommandProcessedEventArgs eventArgs)
-        {
-            CommandProcessed?.Invoke(sender, eventArgs);
-        }
-
-        private static void command_onCommandProcessed(object sender, CommandProcessedEventArgs eventArgs)
-        {
-            Console.WriteLine();
-            Console.WriteLine($"Successfully processed command: {eventArgs.Command.Name} on {eventArgs.DateProcessed}");
-        }
-
-        private static void command_onCommandFailed(object sender, CommandProcessedEventArgs eventArgs)
-        {
-            Console.WriteLine();
-            Console.WriteLine($"Failed to process command: {eventArgs.Command.Name}, finished processing attempt on {eventArgs.DateProcessed} ");
-        }
-
         private static Command SimulatePotentialFailure(Command command)
         {
             Random rand = new Random();
@@ -90,6 +67,28 @@ namespace T_001_EventCollaboration.Processors
             }
 
             return command;
+        }
+
+        protected virtual void OnCommandReceived(object sender, CommandReceivedEventArgs eventArgs)
+        {
+            commandReceivedEventHandler?.Invoke(sender, eventArgs);
+        }
+
+        protected virtual void OnCommandProcessed(object sender, CommandProcessedEventArgs eventArgs)
+        {
+            CommandProcessed?.Invoke(sender, eventArgs);
+        }
+
+        private static void command_onCommandProcessed(object sender, CommandProcessedEventArgs eventArgs)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Successfully processed command: {eventArgs.Command.Name} on {eventArgs.DateProcessed}");
+        }
+
+        private static void command_onCommandFailed(object sender, CommandProcessedEventArgs eventArgs)
+        {
+            Console.WriteLine();
+            Console.WriteLine($"Failed to process command: {eventArgs.Command.Name}, finished processing attempt on {eventArgs.DateProcessed} ");
         }
     }
 }

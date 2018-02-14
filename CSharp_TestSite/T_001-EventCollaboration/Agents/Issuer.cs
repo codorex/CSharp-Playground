@@ -22,18 +22,10 @@ namespace T_001_EventCollaboration.Agents
 
         public event CommandIssuedEventHandler CommandIssued;
 
-        public async Task Issue(Command command)
+        public void Issue(Command command)
         {
-            var _processor = new Processor();
-
             var eventArgs = new CommandIssuedEventArgs { Command = command, DateIssued = DateTime.Now, Issuer = this };
             OnCommandIssued(eventArgs);
-
-            Console.WriteLine(_processor);
-            Processor.CommandReceived += null;
-            Processor.CommandReceived += _processor_OnCommandReceived;
-
-            await _processor.Process(command);
         }
 
         protected virtual void OnCommandIssued(CommandIssuedEventArgs eventArgs)
@@ -42,12 +34,6 @@ namespace T_001_EventCollaboration.Agents
             {
                 CommandIssued(this, eventArgs);
             }
-        }
-
-        private static void _processor_OnCommandReceived(object sender, CommandReceivedEventArgs eventArgs)
-        {
-            Console.WriteLine($"--Received command {eventArgs.Command.Name} on {eventArgs.DateReceived}, issued on {eventArgs.Command.DateIssued}");
-            Console.WriteLine($"Command state: \n--Processed: {eventArgs.Command.State.IsProcessed} \n--Rejected: {eventArgs.Command.State.IsRejected}");
         }
     }
 }
