@@ -18,12 +18,18 @@ namespace T_001_EventCollaboration.Commands.Implementations
         public Command()
         {
             this.State = new CommandState();
+            this.State.stateChangedEventHandler += command_OnCommandStateChanged;
+        }
+
+        public void command_OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
+        {
+            Console.WriteLine($"\"{this.Name}\" state changed! -> Command state: \n--Processed: {eventArgs.CurrentState.IsProcessed} \n--Rejected: {eventArgs.CurrentState.IsRejected} \nPrevious state: \n--Processed: {eventArgs.PreviousState.IsProcessed} \n--Rejected: {eventArgs.PreviousState.IsRejected}");
         }
     }
 
     public class CommandState
     {
-        private CommandStateChangedEventHandler stateChangedEventHandler;
+        public CommandStateChangedEventHandler stateChangedEventHandler;
 
         public bool IsProcessed { get; private set; }
         public bool IsRejected { get; private set; }
@@ -32,7 +38,6 @@ namespace T_001_EventCollaboration.Commands.Implementations
         {
             this.IsProcessed = true;
 
-            this.CommandStateChanged += command_OnCommandStateChanged;
             OnCommandStateChanged(this, new CommandStateChangedEventArgs { PreviousState = new CommandState { IsProcessed = false, IsRejected = false }, CurrentState = this });
         }
 
@@ -64,11 +69,6 @@ namespace T_001_EventCollaboration.Commands.Implementations
         protected virtual void OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
         {
             stateChangedEventHandler?.Invoke(sender, eventArgs);
-        }
-
-        public void command_OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
-        {
-            Console.WriteLine($"Command state: \n--Processed: {eventArgs.CurrentState.IsProcessed} \n--Rejected: {eventArgs.CurrentState.IsRejected} \nPrevious state: \n--Processed: {eventArgs.PreviousState.IsProcessed} \n--Rejected: {eventArgs.PreviousState.IsRejected}");
         }
     }
 }
