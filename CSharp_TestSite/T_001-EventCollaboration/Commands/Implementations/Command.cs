@@ -66,7 +66,7 @@ namespace T_001_EventCollaboration.Commands.Implementations
             stateChangedEventHandler?.Invoke(sender, eventArgs);
         }
 
-        private void command_OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
+        public void command_OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
         {
             Console.WriteLine($"Command state: \n--Processed: {eventArgs.CurrentState.IsProcessed} \n--Rejected: {eventArgs.CurrentState.IsRejected} \nPrevious state: \n--Processed: {eventArgs.PreviousState.IsProcessed} \n--Rejected: {eventArgs.PreviousState.IsRejected}");
         }

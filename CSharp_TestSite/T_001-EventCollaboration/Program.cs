@@ -23,6 +23,7 @@ namespace T_001_EventCollaboration
             issuer.Issue(new Command { DateIssued = DateTime.Now, Name = "First command" });
             issuer.Issue(new Command { DateIssued = DateTime.Now, Name = "Second command" });
             issuer.Issue(new Command { DateIssued = DateTime.Now, Name = "Third command" });
+            issuer.Issue(new Command { DateIssued = DateTime.Now, Name = "bahyr" });
 
             Console.ReadKey();
         }

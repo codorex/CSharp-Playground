@@ -36,12 +36,28 @@ namespace T_001_EventCollaboration.Processors
         {
             OnCommandReceived(this, new CommandReceivedEventArgs { Command = command, DateReceived = DateTime.Now });
 
-            await Task.Run(() => 
+            if (Processor.IsValidCommand(command) == false)
+            {
+                command_onCommandFailed(this, new CommandProcessedEventArgs { Command = command, DateProcessed = DateTime.Now });
+                throw new ArgumentOutOfRangeException("Issued command is not valid.");
+            }
+
+            await Task.Run(() =>
             {
                 command = SimulatePotentialFailure(command);
             });
 
             OnCommandProcessed(this, new CommandProcessedEventArgs { Command = command });
+        }
+
+        public static bool IsValidCommand(Command command)
+        {
+            if (ReferenceEquals(command, null) || command.DateIssued == DateTime.MinValue || String.IsNullOrEmpty(command.Name))
+            {
+                return false;
+            }
+
+            return true;
         }
 
         private static Command SimulatePotentialFailure(Command command)
@@ -82,13 +98,13 @@ namespace T_001_EventCollaboration.Processors
         private static void command_onCommandProcessed(object sender, CommandProcessedEventArgs eventArgs)
         {
             Console.WriteLine();
-            Console.WriteLine($"Successfully processed command: {eventArgs.Command.Name} on {eventArgs.DateProcessed}");
+            Console.WriteLine($"+++ Successfully processed command: {eventArgs.Command.Name} on {eventArgs.DateProcessed} ms: {eventArgs.DateProcessed.Millisecond}");
         }
 
         private static void command_onCommandFailed(object sender, CommandProcessedEventArgs eventArgs)
         {
             Console.WriteLine();
-            Console.WriteLine($"Failed to process command: {eventArgs.Command.Name}, finished processing attempt on {eventArgs.DateProcessed} ");
+            Console.WriteLine($"!!! Failed to process command: {eventArgs.Command.Name}, finished processing attempt on {eventArgs.DateProcessed} ms: {eventArgs.DateProcessed.Millisecond}");
         }
     }
 }
