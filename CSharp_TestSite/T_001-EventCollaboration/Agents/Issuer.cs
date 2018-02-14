@@ -12,14 +12,6 @@ namespace T_001_EventCollaboration.Agents
 {
     public class Issuer
     {
-        private Command _command;
-
-        public Command Command
-        {
-            get => _command;
-            set => _command = value;
-        }
-
         public event CommandIssuedEventHandler CommandIssued;
 
         public void Issue(Command command)
