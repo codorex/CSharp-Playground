@@ -1,0 +1,7 @@
+D:\temp\Test_Site\T_001-EventCollaboration\bin\Debug\T_001-EventCollaboration.exe.config
+D:\temp\Test_Site\T_001-EventCollaboration\bin\Debug\T_001-EventCollaboration.exe
+D:\temp\Test_Site\T_001-EventCollaboration\bin\Debug\T_001-EventCollaboration.pdb
+D:\temp\Test_Site\T_001-EventCollaboration\obj\Debug\T_001-EventCollaboration.csprojResolveAssemblyReference.cache
+D:\temp\Test_Site\T_001-EventCollaboration\obj\Debug\T_001-EventCollaboration.csproj.CoreCompileInputs.cache
+D:\temp\Test_Site\T_001-EventCollaboration\obj\Debug\T_001-EventCollaboration.exe
+D:\temp\Test_Site\T_001-EventCollaboration\obj\Debug\T_001-EventCollaboration.pdb
