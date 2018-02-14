@@ -18,31 +18,42 @@ namespace T_001_EventCollaboration.Commands.Implementations
         public Command()
         {
             this.State = new CommandState();
-            this.State.stateChangedEventHandler += command_OnCommandStateChanged;
+            this.State.StateChangedEventHandler += command_OnCommandStateChanged;
         }
 
         public void command_OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
         {
-            Console.WriteLine($"\"{this.Name}\" state changed! -> Command state: \n--Processed: {eventArgs.CurrentState.IsProcessed} \n--Rejected: {eventArgs.CurrentState.IsRejected} \nPrevious state: \n--Processed: {eventArgs.PreviousState.IsProcessed} \n--Rejected: {eventArgs.PreviousState.IsRejected}");
+            Console.WriteLine();
+            Console.WriteLine($"\"{this.Name}\" state changed!\n--Processed: {eventArgs.PreviousState.IsProcessed} -> {eventArgs.CurrentState.IsProcessed} \n--Rejected: {eventArgs.PreviousState.IsRejected} -> {eventArgs.CurrentState.IsRejected}");
         }
     }
 
     public class CommandState
     {
-        public CommandStateChangedEventHandler stateChangedEventHandler;
+        public CommandStateChangedEventHandler StateChangedEventHandler;
 
         public bool IsProcessed { get; private set; }
         public bool IsRejected { get; private set; }
 
         public void MarkProcessed()
         {
-            this.IsProcessed = true;
+            OnCommandStateChanged(this, new CommandStateChangedEventArgs
+            {
+                PreviousState = this,
+                CurrentState = new CommandState { IsProcessed = true, IsRejected = this.IsRejected }
+            });
 
-            OnCommandStateChanged(this, new CommandStateChangedEventArgs { PreviousState = new CommandState { IsProcessed = false, IsRejected = false }, CurrentState = this });
+            this.IsProcessed = true;
         }
 
         public void MarkRejected()
         {
+            OnCommandStateChanged(this, new CommandStateChangedEventArgs
+            {
+                PreviousState = this,
+                CurrentState = new CommandState { IsProcessed = this.IsProcessed, IsRejected = true }
+            });
+
             this.IsRejected = true;
         }
 
@@ -55,20 +66,20 @@ namespace T_001_EventCollaboration.Commands.Implementations
         {
             add
             {
-                if (stateChangedEventHandler == null || !stateChangedEventHandler.GetInvocationList().Contains(value))
+                if (StateChangedEventHandler == null || !StateChangedEventHandler.GetInvocationList().Contains(value))
                 {
-                    stateChangedEventHandler += value;
+                    StateChangedEventHandler += value;
                 }
             }
             remove
             {
-                stateChangedEventHandler -= value;
+                StateChangedEventHandler -= value;
             }
         }
 
         protected virtual void OnCommandStateChanged(object sender, CommandStateChangedEventArgs eventArgs)
         {
-            stateChangedEventHandler?.Invoke(sender, eventArgs);
+            StateChangedEventHandler?.Invoke(sender, eventArgs);
         }
     }
 }

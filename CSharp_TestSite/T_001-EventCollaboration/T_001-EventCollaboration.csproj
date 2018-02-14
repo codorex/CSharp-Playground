@@ -47,6 +47,7 @@
     <Compile Include="Events\CommandIssuedEventArgs.cs" />
     <Compile Include="Events\CommandProcessedEventArgs.cs" />
     <Compile Include="Events\CommandReceivedEventArgs.cs" />
+    <Compile Include="Events\CommandRejectedEventArgs.cs" />
     <Compile Include="Events\CommandStateChangedEventArgs.cs" />
     <Compile Include="Processors\Processor.cs" />
     <Compile Include="Program.cs" />

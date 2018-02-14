@@ -42,11 +42,7 @@ namespace T_001_EventCollaboration
         private static void _processor_OnCommandReceived(object sender, CommandReceivedEventArgs eventArgs)
         {
             Console.WriteLine(
-                $@"*** Received command {eventArgs.Command.Name} on {eventArgs.DateReceived}, issued on {eventArgs.Command.DateIssued} ms: {eventArgs.Command.DateIssued.Millisecond}
-     Command state: 
-        --Processed: {eventArgs.Command.State.IsProcessed} 
-        --Rejected: {eventArgs.Command.State.IsRejected}"
-                );
+                $@"*** Received command {eventArgs.Command.Name} on {eventArgs.DateReceived}, issued on {eventArgs.Command.DateIssued} ms: {eventArgs.Command.DateIssued.Millisecond}");
         }
     }
 }
