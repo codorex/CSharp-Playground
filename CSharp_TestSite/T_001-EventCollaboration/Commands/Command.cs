@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using T_001_EventCollaboration.Events;
 
-namespace T_001_EventCollaboration.Commands.Implementations
+namespace T_001_EventCollaboration.Commands
 {
     public delegate void CommandStateChangedEventHandler(object sender, CommandStateChangedEventArgs eventArgs);
 
