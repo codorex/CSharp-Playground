@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Buildings\Building.cs" />
     <Compile Include="Buildings\House.cs" />
+    <Compile Include="Buildings\Office.cs" />
     <Compile Include="Buildings\RoomType\Room.cs" />
     <Compile Include="Buildings\RoomType\Bathroom.cs" />
     <Compile Include="Buildings\RoomType\Bedroom.cs" />
@@ -55,6 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Contracts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

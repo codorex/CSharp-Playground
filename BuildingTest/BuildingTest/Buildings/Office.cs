@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BuildingTest.Buildings
 {
-    public class House : Building
+    public class Office : Building
     {
         private List<Room> rooms;
+        private double internalStorage;
         private double area;
-        private double hallArea;
 
         public override double Area
         {
@@ -18,18 +18,18 @@ namespace BuildingTest.Buildings
             set { area = value; }
         }
 
-        public House(List<Room> rooms, double hallArea) : base(rooms)
+        public Office(List<Room> rooms, double internalStorage) : base(rooms)
         {
             this.rooms = rooms;
-            this.hallArea = hallArea;
+            this.internalStorage = internalStorage;
             this.area = this.GetArea();
         }
 
         public override double GetArea()
         {
             double totalArea = 0;
-
-            totalArea = base.GetArea() + this.hallArea;
+            var rms = this.rooms;
+            totalArea = base.GetArea() + (base.Rooms.Count * internalStorage);
 
             return totalArea;
         }

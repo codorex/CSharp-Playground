@@ -25,8 +25,9 @@ namespace BuildingTest
             building.BuildingConstructing += (sender, e) => { e.Rooms.Add(kitchen); };
 
             Building house = new House(rooms, 10);
+            Building office = new Office(new List<Room> { kitchen, bedroom, kitchen, livingRoom, livingRoom }, 12);
 
-            List<Building> buildings = new List<Building> { building, house };
+            List<Building> buildings = new List<Building> { building, house, office };
 
             double totalArea = 0;
 
@@ -36,6 +37,7 @@ namespace BuildingTest
             }
 
             Console.WriteLine("house's area: {0}", house.Area);
+            Console.WriteLine("office's area: {0}", office.Area);
             Console.WriteLine("building's area: {0}", building.Area);
             Console.WriteLine("All buildings' total area: {0}", totalArea);
         }

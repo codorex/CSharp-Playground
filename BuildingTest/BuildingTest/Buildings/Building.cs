@@ -16,7 +16,7 @@ namespace BuildingTest.Buildings
         public event ThresholdReachedEventHandler ThresholdReached;
         public event BuildingContructingEventHandler BuildingConstructing;
 
-        private const double Threshold = 20;
+        protected const double Threshold = 20;
 
         protected virtual void OnBuildingConstructing(BuildingContructingEventArgs e)
         {
@@ -29,8 +29,8 @@ namespace BuildingTest.Buildings
             ThresholdReached?.Invoke(this, e);
         }
 
-        private List<Room> rooms = null;
-        private double area = 0;
+        private List<Room> rooms;
+        private double area;
 
         public List<Room> Rooms
         {
@@ -47,8 +47,6 @@ namespace BuildingTest.Buildings
             }
         }
 
-        public Building() { }
-
         public Building(List<Room> rooms)
         {
             this.rooms = rooms;
@@ -57,22 +55,16 @@ namespace BuildingTest.Buildings
 
             OnBuildingConstructing(new BuildingContructingEventArgs { Rooms = rooms });
 
-            this.area = GetArea(rooms);
+            this.area = GetArea();
         }
 
-        public virtual double GetArea(List<Room> rooms)
+        public virtual double GetArea()
         {
             double totalArea = 0;
 
-            foreach (var room in rooms)
+            foreach (var room in this.rooms)
             {
                 totalArea += room.Area;
-
-                if (totalArea >= Threshold)
-                {
-                    ThresholdReached = (sender, e) => { Console.WriteLine("Inside class threshold reched at {0}", e.CurrentArea); };
-                    OnThresholdReached(new ThresholdReachedEventArgs { CurrentArea = totalArea });
-                }
             }
 
             return totalArea;
